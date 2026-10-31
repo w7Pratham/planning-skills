@@ -49,3 +49,16 @@ With the persistence rule, a fresh agent:
 - added a `Planned — not implemented` entry when the plan was not executed.
 
 Result: PASS.
+
+## High-level plan contract validation
+
+Baseline plans omitted acceptance criteria, non-goals, and rollback.
+
+With the updated skill, a fresh agent produced:
+
+- observable Acceptance Criteria,
+- explicit Non-goals,
+- a Risks and Rollback table,
+- a task-level `Done when` check.
+
+Result: PASS.

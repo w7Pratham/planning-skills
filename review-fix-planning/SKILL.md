@@ -67,6 +67,23 @@ What the review found, why it matters, and the decisions made.
 | Finding | Severity | File | Task | Regression test | Status |
 |---|---|---|---|---|---|
 
+## Acceptance Criteria
+
+- [ ] <finding no longer reproduces>
+- [ ] <regression test failed before the fix>
+- [ ] <negative behavior that must not happen>
+
+## Non-goals
+
+- <behavior this fix must not change>
+- <access, tool, memory, or schema surface deliberately untouched>
+
+## Risks and Rollback
+
+| Risk | Trigger | Impact | Mitigation | Rollback |
+|---|---|---|---|---|
+| <failure mode> | <how we notice> | <what breaks> | <prevention> | <how to revert> |
+
 ## Plan
 
 ### Task N: <component>
@@ -74,9 +91,18 @@ What the review found, why it matters, and the decisions made.
 **Skills:** ...
 **Files:** ...
 **Interfaces:** ...
+**Done when:** <acceptance check for this task>
 **Steps:** RED -> GREEN -> refactor -> commit
 **Reviewer gate:** ...
 ```
+
+## Plan quality contract
+
+A plan is incomplete without:
+
+- **Acceptance Criteria:** the finding no longer reproduces, the regression test failed before the fix, and the negative behavior is pinned.
+- **Non-goals:** explicitly untouched access, tool, memory, schema, or UX surfaces.
+- **Risks and Rollback:** failure mode, trigger, impact, mitigation, and revert path. Required for callbacks, concurrency, delivery, migrations, and deploy steps.
 
 ## Task contract
 
@@ -111,6 +137,9 @@ A task is invalid if any of these is missing:
 | “The finding is clear enough; don’t ask.” | If scope, severity, or expected behavior is ambiguous, use the question palette. Guessing creates rework. |
 | “The plan is in chat; that is enough.” | Persist it to a writable file and record the path. Chat scrollback is not a plan. |
 | “Release notes can say it is fixed.” | Planned work gets a `Planned — not implemented` section, never a shipped entry. |
+| “The finding is fixed; acceptance is obvious.” | Write the observable check and the regression test that failed first. |
+| “Non-goals can wait.” | Unstated non-goals become accidental scope. Write them even when the answer is “none”. |
+| “Rollback is obvious.” | For callbacks, concurrency, delivery, and migrations, write the trigger and revert path. |
 
 ## Red flags
 
@@ -124,6 +153,9 @@ A task is invalid if any of these is missing:
 - Plan exists only in chat.
 - An existing plan was overwritten instead of using a unique filename.
 - Planned work appears in release notes as shipped.
+- No Acceptance Criteria, Non-goals, or Risks and Rollback section.
+- “Fixed” with no observable acceptance check or regression test.
+- A high-risk finding has no rollback path.
 - Starting implementation while the plan is unapproved.
 
 ## Validation

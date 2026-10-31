@@ -56,6 +56,16 @@ cp -r repo-gist implementation-planning review-fix-planning ~/.config/opencode/s
 
 Restart OpenCode or reload skills. All three should appear in the available-skills list.
 
+## Plan quality contract
+
+Every plan includes:
+
+- **Acceptance Criteria** — observable user outcomes and the checks that prove them.
+- **Non-goals** — what is explicitly out of scope, even when the answer is “none”.
+- **Risks and Rollback** — failure mode, trigger, impact, mitigation, and revert path. Required for migrations, state changes, callbacks, concurrency, external APIs, and deploy steps.
+
+“Works correctly” is not an acceptance criterion. Every task also has a **Done when** check.
+
 ## Plan persistence
 
 Both skills require the plan to be written to a file, using the first writable location:

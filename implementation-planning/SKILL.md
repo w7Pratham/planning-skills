@@ -126,6 +126,23 @@ What the user wants, why it matters, the selected palette decisions, and the use
 | Codemap area | Component/file | Why affected | Required change | Test |
 |---|---|---|---|---|
 
+## Acceptance Criteria
+
+- [ ] <observable user outcome>
+- [ ] <negative behavior that must not happen>
+- [ ] <verification command or manual check>
+
+## Non-goals
+
+- <explicitly out of scope>
+- <behavior this plan must not change>
+
+## Risks and Rollback
+
+| Risk | Trigger | Impact | Mitigation | Rollback |
+|---|---|---|---|---|
+| <failure mode> | <how we notice> | <what breaks> | <prevention> | <how to revert> |
+
 ## Plan
 
 ### Task N: <component>
@@ -133,11 +150,22 @@ What the user wants, why it matters, the selected palette decisions, and the use
 **Skills:** ...
 **Files:** ...
 **Interfaces:** ...
+**Done when:** <acceptance check for this task>
 **Steps:** RED -> GREEN -> refactor -> commit
 **Reviewer gate:** ...
 ```
 
-### 5. Persist the plan and mark its status
+### 5. Plan quality contract
+
+A plan is incomplete without:
+
+- **Acceptance Criteria:** observable user outcomes and the checks that prove them.
+- **Non-goals:** what is explicitly out of scope, even when the answer is “none”.
+- **Risks and Rollback:** failure mode, trigger, impact, mitigation, and how to revert. Required for migrations, state changes, callbacks, concurrency, external APIs, and deploy steps; for a trivial change write “Low risk — revert the commit.”
+
+Acceptance criteria must name an observable outcome or command. “Works correctly” is not a criterion.
+
+### 6. Persist the plan and mark its status
 
 Write the plan to a file in the first writable location, in this order:
 
@@ -154,7 +182,7 @@ If the plan is not implemented yet, add a clearly labelled
 `Planned — not implemented` entry to `docs/plans.md` or the release notes.
 Never present planned work as shipped in release notes.
 
-### 6. Task contract
+### 7. Task contract
 
 Every task must contain:
 - exact files,
@@ -166,13 +194,13 @@ Every task must contain:
 - a reviewer gate,
 - a commit step.
 
-### 7. Reviewers
+### 8. Reviewers
 
 - **Plan-level:** product/UX, technical/codebase, plan/test quality. Resolve blockers before Task 1.
 - **Per-task:** fresh reviewer checks spec, tests, regressions, diff hygiene.
 - **Final:** whole-branch reviewer runs the full verification and checks the Impact Map.
 
-### 8. Stop before implementation
+### 9. Stop before implementation
 
 In Plan mode, end with the plan and tell the user to switch agents. Do not write code.
 
@@ -189,6 +217,9 @@ In Plan mode, end with the plan and tell the user to switch agents. Do not write
 | “Plan mode is a formality; start coding.” | Stop at the plan. Execution is a separate agent choice. |
 | “The plan is in chat; that is enough.” | Persist it to a writable file and record the path. Chat scrollback is not a plan. |
 | “Release notes can say it is done.” | Planned work gets a `Planned — not implemented` section, never a shipped entry. |
+| “Acceptance criteria are obvious.” | If they are not written, nobody can verify them. Write observable outcomes and checks. |
+| “Non-goals can wait.” | Unstated non-goals become accidental scope. Write them even when the answer is “none”. |
+| “Rollback is obvious.” | For migrations, state changes, callbacks, and deploys, write the trigger and the revert path. |
 
 ## Red flags
 
@@ -203,8 +234,11 @@ In Plan mode, end with the plan and tell the user to switch agents. Do not write
 - Plan exists only in chat.
 - An existing plan was overwritten instead of using a unique filename.
 - Planned work appears in release notes as shipped.
+- No Acceptance Criteria, Non-goals, or Risks and Rollback section.
+- Acceptance criteria say “works correctly” instead of naming an observable outcome.
+- A high-risk change has no rollback path.
 - Implementation started in Plan mode.
 
 ## Validation
 
-Before publishing, run baseline feature/fix scenarios without the skill and the same scenarios with it. Pass when the skill makes the agent use the `question` palette (or the documented chat fallback) with options and a final notes question, check/refresh the codemap, produce an Impact Map, use the required heading, persist the plan and its status, mark unimplemented work as planned, and define tasks with skills/interfaces/tests/gates.
+Before publishing, run baseline feature/fix scenarios without the skill and the same scenarios with it. Pass when the skill makes the agent use the `question` palette (or the documented chat fallback) with options and a final notes question, check/refresh the codemap, produce an Impact Map, use the required heading, persist the plan and its status, mark unimplemented work as planned, include Acceptance Criteria, Non-goals, and Risks and Rollback, and define tasks with skills/interfaces/tests/gates.

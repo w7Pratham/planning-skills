@@ -40,3 +40,16 @@ With the persistence rule, a fresh agent:
 - marked unimplemented work as planned rather than shipped.
 
 Result: PASS.
+
+## High-level plan contract validation
+
+Baseline review-fix plans omitted acceptance proof, non-goals, and rollback.
+
+With the updated skill, a fresh agent produced:
+
+- Acceptance Criteria including “finding no longer reproduces” and “regression test failed first”,
+- non-goals covering access/tool/memory/schema surfaces,
+- a Risks and Rollback table,
+- a task-level `Done when` check.
+
+Result: PASS.
