@@ -27,8 +27,9 @@ Do not use for:
 
 1. **Build the finding ledger.** Every finding gets a row: id, severity, file, symptom, task, regression test, status. Status is `fixed`, `deferred`, or `blocked`. A finding with no row is a defect in the plan.
 2. **Classify by effect, not label.** Re-grade each finding by what a user gets if it ships. A “minor” that can lose data or a message is not minor.
-3. **Map findings to tasks.** One task per independently reviewable fix. Shared state, callbacks, and concurrency may force a larger task; unrelated findings must not be bundled.
-4. **Write each task test-first.** A task is not valid without:
+3. **Resolve ambiguity with the option palette.** If a finding’s expected behavior, scope, or severity is unclear, use the harness `question` tool with 2–3 options plus one notes question. Wait for the answer; record it as a ruling. Do not guess a reviewer’s intent.
+4. **Map findings to tasks.** One task per independently reviewable fix. Shared state, callbacks, and concurrency may force a larger task; unrelated findings must not be bundled.
+5. **Write each task test-first.** A task is not valid without:
    - files to modify,
    - exact interfaces/signatures,
    - a failing regression test,
@@ -37,14 +38,14 @@ Do not use for:
    - the run command and expected pass,
    - a reviewer gate,
    - a commit.
-5. **Add plan-level reviewers.** Before implementation, dispatch at least:
+6. **Add plan-level reviewers.** Before implementation, dispatch at least:
    - a product/UX reviewer,
    - a technical/concurrency reviewer,
    - a plan/test-quality reviewer.
    Fix their blockers before Task 1.
-6. **Add a per-task reviewer gate.** After every task, a fresh reviewer checks spec compliance, test quality, regressions, and diff hygiene. A task is not complete until it passes.
-7. **Add one final whole-branch reviewer.** It checks the cumulative diff against every finding, runs the full verification, and returns APPROVE or REVISE.
-8. **Stop before implementation.** End with the execution handoff. In Plan mode, tell the user to switch agents.
+7. **Add a per-task reviewer gate.** After every task, a fresh reviewer checks spec compliance, test quality, regressions, and diff hygiene. A task is not complete until it passes.
+8. **Add one final whole-branch reviewer.** It checks the cumulative diff against every finding, runs the full verification, and returns APPROVE or REVISE.
+9. **Stop before implementation.** End with the execution handoff. In Plan mode, tell the user to switch agents.
 
 ## Plan template
 
@@ -101,6 +102,7 @@ A task is invalid if any of these is missing:
 | “The final reviewer covers per-task review.” | The final reviewer sees a large mixed diff; it cannot gate each task’s contract. Use both. |
 | “This P2 is minor; skip it.” | Re-grade by effect. Minor means polish, not “silently absent.” Record a ruling. |
 | “The plan is obvious; skip the ledger.” | The ledger is how the user sees what happened to every finding. No row means no accountability. |
+| “The finding is clear enough; don’t ask.” | If scope, severity, or expected behavior is ambiguous, use the question palette. Guessing creates rework. |
 
 ## Red flags
 
@@ -108,10 +110,11 @@ A task is invalid if any of these is missing:
 - A task with no failing test first.
 - “We’ll add tests later.”
 - One task named “fix all findings.”
+- Guessing an ambiguous finding instead of asking.
 - No plan-level reviewers.
 - No per-task reviewer gate.
 - Starting implementation while the plan is unapproved.
 
 ## Validation
 
-Before publishing this skill, run baseline scenarios without it and the same scenarios with it. Pass when the skill makes the plan cover every finding, every task has a RED test and reviewer gate, and no finding is silently dropped.
+Before publishing this skill, run baseline scenarios without it and the same scenarios with it. Pass when the skill makes the plan cover every finding, asks via the question palette when a finding is ambiguous, gives every task a RED test and reviewer gate, and never silently drops a finding.

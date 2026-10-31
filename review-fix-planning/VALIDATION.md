@@ -21,3 +21,9 @@ A fresh agent given a three-finding review produced:
 - an explicit stop before implementation.
 
 Result: PASS.
+
+## Ambiguity-palette update
+
+Baseline: an ambiguous finding (“cancel button behaves incorrectly”) could be planned from a guess.
+
+Validated: a fresh agent following the updated skill identified that stale-state and copy bugs need different tasks/tests, requested a palette choice with three options plus notes, and stopped instead of guessing. In a runtime without the `question` tool it correctly fell back to numbered chat options.

@@ -25,8 +25,8 @@ Use when the user asks to build, add, change, or fix behavior and needs a decisi
 It:
 
 1. Checks `docs/codemap.md`; if missing or stale, uses the `repo-gist` skill through a subagent to refresh it.
-2. Asks 3–5 decision questions in chat, each with 2–4 options and a recommended default.
-3. Waits for the user’s selections before planning.
+2. Uses the OpenCode `question` palette for 3–5 decision questions, each with 2–4 options and a recommended default, plus a final free-form notes question.
+3. Waits for the user’s selections and free-form notes before planning.
 4. Builds an Impact Map from the codemap: component, file, why affected, required change, test.
 5. Writes a `# Feature:` / `# Fix:` / `# Problem Statement:` plan.
 6. Requires every task to name Skills, Files, Interfaces, RED/GREEN steps, a reviewer gate, and a commit.
@@ -78,6 +78,7 @@ planning-skills/
 - Skills are built with TDD: baseline failure → minimal skill → validation → refactor.
 - Customer/project-specific rules stay out; these skills reference the project’s own `AGENTS.md`, `docs/codemap.md`, and verification commands.
 - No implementation code is written while planning.
+- Decision questions use the harness `question` palette when available; the fallback is a numbered chat list.
 
 ## License
 

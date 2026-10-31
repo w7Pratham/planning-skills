@@ -36,36 +36,49 @@ Look for `docs/codemap.md`.
 
 If no subagent tool exists, inspect the repository and state that the codemap was reconstructed manually.
 
-### 2. Ask decision questions in chat
+### 2. Ask decision questions with the option palette
 
-Ask 3–5 questions in one batch. Every question has 2–4 options. Put the recommended option first and label it `(Recommended)`. Wait for the user’s selections before writing the plan.
+Use the harness **`question` tool** — the multiple-choice option palette. Call it once with 3–5 decision questions plus one final notes question. Every question has 2–4 options; put the recommended option first and label it `(Recommended)`. The palette automatically adds a free-form “Type your own answer” option.
 
-```text
-Before I write the plan, I need N decisions:
-
-1. Scope
-   A. Smallest safe change (Recommended)
-   B. Full feature
-   C. ...
-
-2. Data/storage
-   A. No schema change (Recommended)
-   B. Additive migration
-   C. ...
-
-3. Compatibility
-   A. Preserve existing behavior (Recommended)
-   B. Allow breaking change
-   C. ...
-
-Reply with e.g. "1A 2B 3C".
+```python
+question(questions=[
+    {
+        "header": "Scope",
+        "question": "How large should this change be?",
+        "options": [
+            {"label": "Smallest safe change (Recommended)", "description": "Fix the immediate problem with the least surface area."},
+            {"label": "Full feature", "description": "Implement the complete behavior in one plan."},
+        ],
+    },
+    {
+        "header": "Data",
+        "question": "Should this change the stored data?",
+        "options": [
+            {"label": "No schema change (Recommended)", "description": "Use existing fields and tables."},
+            {"label": "Additive migration", "description": "Add columns/tables without breaking existing data."},
+        ],
+    },
+    {
+        "header": "Notes",
+        "question": "Anything else I should know before planning?",
+        "options": [
+            {"label": "No extra notes (Recommended)", "description": "Proceed with the choices above."},
+            {"label": "I have notes", "description": "Add constraints or context in the free-form answer."},
+        ],
+    },
+])
 ```
+
+Wait for the user’s selections before writing the plan.
+
+If the `question` tool is unavailable, ask the same questions in chat as a numbered list and wait for a reply such as `1A 2B 3C`.
 
 Rules:
 - No plan before answers.
 - If the user says “you decide”, choose the recommended option and record a ruling.
 - Ask a follow-up only when an answer creates a blocking ambiguity.
-- Do not ask more than five questions in the first batch.
+- Do not ask more than five decision questions plus the final notes question.
+- Use the user’s free-form notes as plan constraints; do not discard them.
 
 ### 3. Build the Impact Map
 
@@ -101,7 +114,7 @@ Then:
 ```markdown
 ## Description
 
-What the user wants, why it matters, and the selected decisions.
+What the user wants, why it matters, the selected palette decisions, and the user's free-form notes.
 
 ## Impact Map
 
@@ -146,6 +159,7 @@ In Plan mode, end with the plan and tell the user to switch agents. Do not write
 | Excuse | Reality |
 |---|---|
 | “The questions are obvious; skip them.” | The user’s scope, compatibility, and data decisions are not yours to invent. Ask. |
+| “The palette is optional; chat is fine.” | Use the `question` tool when available. It is faster, keeps options visible, and captures free-form notes. |
 | “I remember the code; the codemap is stale.” | The codemap is the shared map. Refresh it or state that you reconstructed it. |
 | “One task can cover the whole feature.” | A reviewer cannot gate pieces independently. Split by component and test. |
 | “Write the plan first, ask later.” | A plan built on guessed decisions is rework. Ask first, then plan. |
@@ -155,6 +169,7 @@ In Plan mode, end with the plan and tell the user to switch agents. Do not write
 ## Red flags
 
 - No questions asked.
+- Questions in prose when the `question` palette is available.
 - Questions without options.
 - Plan written before the user answers.
 - No codemap check.
@@ -165,4 +180,4 @@ In Plan mode, end with the plan and tell the user to switch agents. Do not write
 
 ## Validation
 
-Before publishing, run baseline feature/fix scenarios without the skill and the same scenarios with it. Pass when the skill makes the agent ask questions with options, check/refresh the codemap, produce an Impact Map, use the required heading, and define tasks with skills/interfaces/tests/gates.
+Before publishing, run baseline feature/fix scenarios without the skill and the same scenarios with it. Pass when the skill makes the agent use the `question` palette (or the documented chat fallback) with options and a final notes question, check/refresh the codemap, produce an Impact Map, use the required heading, and define tasks with skills/interfaces/tests/gates.

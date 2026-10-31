@@ -23,3 +23,16 @@ A fresh agent:
 7. Stopped before implementation.
 
 Result: PASS.
+
+## Question-palette update
+
+Baseline: the skill asked decisions as prose in chat.
+
+Validated: a fresh agent following the updated skill produced a `question` palette call with:
+
+- 4 decision questions (surface, rows, access, format),
+- recommended option first,
+- a final “Anything else I should know before planning?” notes question,
+- the free-form answer path documented.
+
+When the runtime has no `question` tool, the skill's documented fallback is a numbered chat list.
