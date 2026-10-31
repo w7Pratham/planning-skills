@@ -1,8 +1,22 @@
 # Planning Skills
 
-Two OpenCode skills for turning a request or a code review into an executable, test-first plan.
+Three OpenCode skills for mapping a codebase, turning a request into an executable plan, and turning a review into a test-first fix plan.
 
 ## Skills
+
+### `repo-gist`
+
+Use when asked to gist, map, onboard to, or summarize a repository.
+
+It:
+
+1. Reads the README, manifests, tree, CI, and environment example.
+2. Finds entry points and traces 2–3 core flows through the actual code.
+3. Writes `docs/codemap.md`, `docs/routing.md`, and `docs/observation.md` (or `docs/gist/` if `docs/` already exists).
+4. Self-checks every cited path and marks anything unverified.
+5. Prints a 5-line summary and the files written.
+
+`implementation-planning` uses this skill as its codemap refresh step when `docs/codemap.md` is missing or stale.
 
 ### `implementation-planning`
 
@@ -10,7 +24,7 @@ Use when the user asks to build, add, change, or fix behavior and needs a decisi
 
 It:
 
-1. Checks `docs/codemap.md`; if missing or stale, dispatches a `repo-gist` subagent to refresh it.
+1. Checks `docs/codemap.md`; if missing or stale, uses the `repo-gist` skill through a subagent to refresh it.
 2. Asks 3–5 decision questions in chat, each with 2–4 options and a recommended default.
 3. Waits for the user’s selections before planning.
 4. Builds an Impact Map from the codemap: component, file, why affected, required change, test.
@@ -37,15 +51,17 @@ It:
 Copy the skill folders into your OpenCode skills directory:
 
 ```bash
-cp -r implementation-planning review-fix-planning ~/.config/opencode/skills/
+cp -r repo-gist implementation-planning review-fix-planning ~/.config/opencode/skills/
 ```
 
-Restart OpenCode or reload skills. Both skills should appear in the available-skills list.
+Restart OpenCode or reload skills. All three should appear in the available-skills list.
 
 ## Layout
 
 ```text
 planning-skills/
+├── repo-gist/
+│   └── SKILL.md
 ├── implementation-planning/
 │   ├── SKILL.md
 │   └── VALIDATION.md
