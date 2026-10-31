@@ -36,3 +36,16 @@ Validated: a fresh agent following the updated skill produced a `question` palet
 - the free-form answer path documented.
 
 When the runtime has no `question` tool, the skill's documented fallback is a numbered chat list.
+
+## Persistence rule validation
+
+Baseline agents wrote plans only in chat and did not mark planned work.
+
+With the persistence rule, a fresh agent:
+
+- selected a writable plan path,
+- used a unique filename,
+- included `Status: draft`, owner/date, and issue/PR,
+- added a `Planned — not implemented` entry when the plan was not executed.
+
+Result: PASS.

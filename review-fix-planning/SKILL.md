@@ -44,13 +44,19 @@ Do not use for:
    - a plan/test-quality reviewer.
    Fix their blockers before Task 1.
 7. **Add a per-task reviewer gate.** After every task, a fresh reviewer checks spec compliance, test quality, regressions, and diff hygiene. A task is not complete until it passes.
-8. **Add one final whole-branch reviewer.** It checks the cumulative diff against every finding, runs the full verification, and returns APPROVE or REVISE.
-9. **Stop before implementation.** End with the execution handoff. In Plan mode, tell the user to switch agents.
+8. **Persist the plan and mark its status.** Write it to the first writable location: the path the user named, `docs/superpowers/plans/YYYY-MM-DD-<name>.md`, `docs/plans/YYYY-MM-DD-<name>.md`, `.opencode/plan/YYYY-MM-DD-<name>.md`, or a temp directory with the path reported. Use a unique filename; never overwrite. Include `Status: draft`, owner/date, and the issue/PR. If not implemented, add a `Planned — not implemented` entry to `docs/plans.md` or the release notes; never present planned work as shipped.
+9. **Add one final whole-branch reviewer.** It checks the cumulative diff against every finding, runs the full verification, and returns APPROVE or REVISE.
+10. **Stop before implementation.** End with the execution handoff. In Plan mode, tell the user to switch agents.
 
 ## Plan template
 
 ```markdown
 # Fix: <short title>
+
+Status: draft
+Owner: <name>
+Date: YYYY-MM-DD
+Issue/PR: <link or id>
 
 ## Description
 
@@ -103,6 +109,8 @@ A task is invalid if any of these is missing:
 | “This P2 is minor; skip it.” | Re-grade by effect. Minor means polish, not “silently absent.” Record a ruling. |
 | “The plan is obvious; skip the ledger.” | The ledger is how the user sees what happened to every finding. No row means no accountability. |
 | “The finding is clear enough; don’t ask.” | If scope, severity, or expected behavior is ambiguous, use the question palette. Guessing creates rework. |
+| “The plan is in chat; that is enough.” | Persist it to a writable file and record the path. Chat scrollback is not a plan. |
+| “Release notes can say it is fixed.” | Planned work gets a `Planned — not implemented` section, never a shipped entry. |
 
 ## Red flags
 
@@ -113,8 +121,11 @@ A task is invalid if any of these is missing:
 - Guessing an ambiguous finding instead of asking.
 - No plan-level reviewers.
 - No per-task reviewer gate.
+- Plan exists only in chat.
+- An existing plan was overwritten instead of using a unique filename.
+- Planned work appears in release notes as shipped.
 - Starting implementation while the plan is unapproved.
 
 ## Validation
 
-Before publishing this skill, run baseline scenarios without it and the same scenarios with it. Pass when the skill makes the plan cover every finding, asks via the question palette when a finding is ambiguous, gives every task a RED test and reviewer gate, and never silently drops a finding.
+Before publishing this skill, run baseline scenarios without it and the same scenarios with it. Pass when the skill makes the plan cover every finding, asks via the question palette when a finding is ambiguous, gives every task a RED test and reviewer gate, persists the plan and its status, marks unimplemented work as planned, and never silently drops a finding.

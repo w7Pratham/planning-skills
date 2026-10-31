@@ -27,3 +27,16 @@ Result: PASS.
 Baseline: an ambiguous finding (“cancel button behaves incorrectly”) could be planned from a guess.
 
 Validated: a fresh agent following the updated skill identified that stale-state and copy bugs need different tasks/tests, requested a palette choice with three options plus notes, and stopped instead of guessing. In a runtime without the `question` tool it correctly fell back to numbered chat options.
+
+## Persistence rule validation
+
+Baseline review-fix plans existed only in chat or an implicit plan file.
+
+With the persistence rule, a fresh agent:
+
+- persisted the plan to a writable path,
+- used a unique filename,
+- included `Status: draft`, owner/date, and issue/PR,
+- marked unimplemented work as planned rather than shipped.
+
+Result: PASS.

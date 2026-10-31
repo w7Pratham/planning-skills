@@ -56,6 +56,18 @@ cp -r repo-gist implementation-planning review-fix-planning ~/.config/opencode/s
 
 Restart OpenCode or reload skills. All three should appear in the available-skills list.
 
+## Plan persistence
+
+Both skills require the plan to be written to a file, using the first writable location:
+
+1. the path the user named,
+2. `docs/superpowers/plans/YYYY-MM-DD-<name>.md`,
+3. `docs/plans/YYYY-MM-DD-<name>.md`,
+4. `.opencode/plan/YYYY-MM-DD-<name>.md`,
+5. a temporary directory, with the exact path reported.
+
+Plans use a unique filename and include `Status: draft | approved | implemented | superseded`, owner/date, and the issue/PR. Unimplemented work gets a `Planned — not implemented` entry in `docs/plans.md` or release notes; planned work is never presented as shipped.
+
 ## Layout
 
 ```text

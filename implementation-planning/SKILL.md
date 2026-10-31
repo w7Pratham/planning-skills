@@ -107,6 +107,11 @@ Use exactly one of these headings:
 # Feature: <title>
 # Fix: <title>
 # Problem Statement: <title>
+
+Status: draft
+Owner: <name>
+Date: YYYY-MM-DD
+Issue/PR: <link or id>
 ```
 
 Then:
@@ -132,7 +137,24 @@ What the user wants, why it matters, the selected palette decisions, and the use
 **Reviewer gate:** ...
 ```
 
-### 5. Task contract
+### 5. Persist the plan and mark its status
+
+Write the plan to a file in the first writable location, in this order:
+
+1. the path the user named;
+2. `docs/superpowers/plans/YYYY-MM-DD-<name>.md`;
+3. `docs/plans/YYYY-MM-DD-<name>.md`;
+4. `.opencode/plan/YYYY-MM-DD-<name>.md`;
+5. a temporary directory, and tell the user the exact path.
+
+Use a unique filename; never overwrite an existing plan. Include `Status: draft`,
+owner/date, and the linked issue, PR, or request.
+
+If the plan is not implemented yet, add a clearly labelled
+`Planned — not implemented` entry to `docs/plans.md` or the release notes.
+Never present planned work as shipped in release notes.
+
+### 6. Task contract
 
 Every task must contain:
 - exact files,
@@ -144,13 +166,13 @@ Every task must contain:
 - a reviewer gate,
 - a commit step.
 
-### 6. Reviewers
+### 7. Reviewers
 
 - **Plan-level:** product/UX, technical/codebase, plan/test quality. Resolve blockers before Task 1.
 - **Per-task:** fresh reviewer checks spec, tests, regressions, diff hygiene.
 - **Final:** whole-branch reviewer runs the full verification and checks the Impact Map.
 
-### 7. Stop before implementation
+### 8. Stop before implementation
 
 In Plan mode, end with the plan and tell the user to switch agents. Do not write code.
 
@@ -165,6 +187,8 @@ In Plan mode, end with the plan and tell the user to switch agents. Do not write
 | “Write the plan first, ask later.” | A plan built on guessed decisions is rework. Ask first, then plan. |
 | “Tests can come after implementation.” | A test that never failed proves nothing. RED first. |
 | “Plan mode is a formality; start coding.” | Stop at the plan. Execution is a separate agent choice. |
+| “The plan is in chat; that is enough.” | Persist it to a writable file and record the path. Chat scrollback is not a plan. |
+| “Release notes can say it is done.” | Planned work gets a `Planned — not implemented` section, never a shipped entry. |
 
 ## Red flags
 
@@ -176,8 +200,11 @@ In Plan mode, end with the plan and tell the user to switch agents. Do not write
 - No Impact Map.
 - Missing heading: Feature / Fix / Problem Statement.
 - A task with no Skills, Files, Interfaces, Steps, or Reviewer gate.
+- Plan exists only in chat.
+- An existing plan was overwritten instead of using a unique filename.
+- Planned work appears in release notes as shipped.
 - Implementation started in Plan mode.
 
 ## Validation
 
-Before publishing, run baseline feature/fix scenarios without the skill and the same scenarios with it. Pass when the skill makes the agent use the `question` palette (or the documented chat fallback) with options and a final notes question, check/refresh the codemap, produce an Impact Map, use the required heading, and define tasks with skills/interfaces/tests/gates.
+Before publishing, run baseline feature/fix scenarios without the skill and the same scenarios with it. Pass when the skill makes the agent use the `question` palette (or the documented chat fallback) with options and a final notes question, check/refresh the codemap, produce an Impact Map, use the required heading, persist the plan and its status, mark unimplemented work as planned, and define tasks with skills/interfaces/tests/gates.
